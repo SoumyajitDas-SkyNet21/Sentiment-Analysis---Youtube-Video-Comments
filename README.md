@@ -122,7 +122,7 @@ import matplotlib.pyplot as plt
 
 ```python
 # Storing the api in API_KEY variable
-API_KEY='AIzaSyAKylkn9ANwkb2gA1q8MEVpMr_#_#####'
+API_KEY='AIzaSyA######ANw########EVpMr_#_#####'
 
 # Initializing Youtube API 
 youtube=build('youtube','v3',developerKey=API_KEY)
