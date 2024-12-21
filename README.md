@@ -96,7 +96,12 @@
 
     - Save analyzed comments and their sentiments into a text file for record-keeping and further analysis.
 
-#### Importing necessary dependencies 
+### Video Used 
+
+- In this project, I've worked with a music video that **Coldplay** realeased in 2024
+- Video Link - https://www.youtube.com/watch?v=4NKhYkFAmUw
+
+### Importing necessary dependencies 
 
 
 ```python
@@ -112,12 +117,12 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt 
 ```
 
-#### Fetching the video id & channel id 
+### Fetching the video id & channel id 
 
 
 ```python
 # Storing the api in API_KEY variable
-API_KEY='AIzaSyAKylkn9ANwkb2gA1q8MEVpMrs_a_UbHJY'
+API_KEY='AIzaSyAKylkn9ANwkb2gA1q8MEVpMr_#_#####'
 
 # Initializing Youtube API 
 youtube=build('youtube','v3',developerKey=API_KEY)
@@ -134,21 +139,16 @@ video_response=youtube.videos().list(
 video_snippet=video_response['items'][0]['snippet']
 uploader_channel_id=video_snippet['channelId']
 print("Channel Id: "+uploader_channel_id)
-
-
-               
-
-
 ```
 
-    Enter Youtube Video URL :  https://www.youtube.com/watch?v=pSeaHfkd3M8
+    Enter Youtube Video URL :  https://www.youtube.com/watch?v=4NKhYkFAmUw
     
 
-    Video Id: pSeaHfkd3M8
+    Video Id: 4NKhYkFAmUw
     Channel Id: UCDPM_n1atn2ijUwHd0NNRQw
     
 
-#### Fetching Comments 
+### Fetching Comments 
 
 
 ```python
@@ -174,7 +174,7 @@ while len(comments) <600:
         if not nextPageToken:
             break
     # Printing 5 comments 
-comments[:10]
+comments[:5]
 ```
 
     Fetching Comments...
@@ -183,56 +183,11 @@ comments[:10]
 
 
 
-    ['❤',
-     'Hopeful to find love that makes me feel like this song🥹',
-     'My dad passed away this year and Coldplay was his favorite. This feels like him giving us a message to get through this christmas period without him, love you dad!',
-     'Awesome tribute to a awesome actor!',
-     'Who else can NOT listen to this 5 days before Christmas!? Beautiful, but so sad! 😢I miss my mum! 2-13-22, it changed me forever!',
-     '❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️',
-     'Coldplay,s every song is just Masterpiece🥰💖✨❤',
-     '❤❤❤❤',
-     '👋',
-     'He still got his groove at 99! Has such a mischievous smile and looks cool dancing']
-
-
-
-#### Filtering Comments 
-
-
-```python
-hyperlink_pattern = re.compile(
-    r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
-
-threshold_ratio=0.75
-relevant_comments=[]
-# Inside your loop that processes comments 
-
-for comment_text in comments:
-    comment_text=comment_text.lower().strip()
-    emojis=emoji.emoji_count(comment_text)
-
-    # Count text characters (exclusinding Spaces)
-    text_characters=len(re.sub(r'\s','',comment_text))
-    if (any(char.isalnum() for char in comment_text)) and not hyperlink_pattern.search(comment_text):
-        if emojis == 0 or (text_characters / (text_characters + emojis)) > threshold_ratio:
-            relevant_comments.append(comment_text)
-# Print the relevant comments
-relevant_comments[:10]
-```
-
-
-
-
-    ['hopeful to find love that makes me feel like this song🥹',
-     'my dad passed away this year and coldplay was his favorite. this feels like him giving us a message to get through this christmas period without him, love you dad!',
-     'awesome tribute to a awesome actor!',
-     'who else can not listen to this 5 days before christmas!? beautiful, but so sad! 😢i miss my mum! 2-13-22, it changed me forever!',
-     'coldplay,s every song is just masterpiece🥰💖✨❤',
-     'he still got his groove at 99! has such a mischievous smile and looks cool dancing',
-     'i haven&#39;t heard a recent coldplay song that sounds like the way it sounded on their four albums. i knew it was time to listen to this style again.',
-     'got tears listening to this song',
-     '🥰forever....',
-     'omg is he&#39;s the actor in  mary poppins?']
+    ['Chris Martin has such a gorgeous bountiful voice! Wow 😊❤',
+     '❤❤❤',
+     'Just....perfect.... for soul.',
+     'You have all my love babe.💕💋❤️M❤️',
+     'Happy 99th birthday Mr. Van Dyke']
 
 
 
@@ -278,19 +233,14 @@ for comment_text in comments:
                 continue
 
 # Print the first 5 relevant comments
-print(relevant_comments[:50])
+print(relevant_comments[:5])
 
 ```
 
-    ['hopeful to find love that makes me feel like this song🥹', 'my dad passed away this year and coldplay was his favorite. this feels like him giving us a message to get through this christmas period without him, love you dad!', 'awesome tribute to a awesome actor!', 'who else can not listen to this 5 days before christmas!? beautiful, but so sad! 😢i miss my mum! 2-13-22, it changed me forever!', 'coldplay,s every song is just masterpiece🥰💖✨❤', 'he still got his groove at 99! has such a mischievous smile and looks cool dancing', 'i haven&#39;t heard a recent coldplay song that sounds like the way it sounded on their four albums. i knew it was time to listen to this style again.', 'got tears listening to this song', 'omg is he&#39;s the actor in  mary poppins?', 'yayyyyy!!!!! i got here before it went viral ! 🥰😋🙏🏾⚡🫶🏾💪🏾', 'touch deeply inside me..whoever read this comment,you got all my love.wish we can be a better human for this world❤', 'just when you thought the lyric video couldn&#39;t get any better.', 'i&#39;m leaving this comment here so after a month or a year, when someone like it, i get reminded of this masterpiece.🔝👌', 'this song breaks your heart because it shows how short life is! 1 million blinks and it&#39;s over!', 'all my love for palestine', 'lucky to have so much family', 'awwww 99 + red balloons in the end', 'my favorite band i grew up with such a great man chris your so awesome', 'wow , such a tear jerking song / video . ❤❤❤❤simply beautiful.', 'been a long time since i’ve teared up watching a music video 😊❤', 'a beautiful tribute to a beautiful soul. coldplay hit it out of the park. thanks for the memories.', 'yes! this is what im talking about!  🥹🙌', 'i just know imraan is listening to this.', 'whats  the big diff we old cats know who this is young ones no   do a song for kate hepburn  . tracy😊', 'just the sound of his voice makes you smile. &lt;3', 'an emotional masterpiece', 'that was beautiful, well done 🥰🥰🥰', 'this is the best thing iv ever seen ❤❤❤ very emotional stuff huge respect ❤❤❤my heart is some what full thank u chris and sir van dyke', 'what is love??? it&#39;s loving someone more than you love yourself.', 'thanks for writing such an amazing song! i made a cover for my wife for this christmas, hope she likes it!', 'this is beautiful ❤', 'happy 99th birthday mr van dyke! ❤️ what a men! still a magnificent dancer..and his eyes are so full of happiness and joy.. ❤️ i cry everytime watching this 😭♥️ thanks chris, thanks coldplay for this stunning song and this precious tribute to a living true legend ♥️', 'who cut onions 😢❤', 'aweee my heart!!', 'coldplay came to close the year with a flourish ✨', 'i love that he’s receiving his flowers while he’s here', 'what a fantastic way to celebrate a wonderful man.happy 99th sir.', 'oh, for now and always, till the end of my days<br>you got all my love<br>you&#39;ve got all my love<br><br>can&#39;t be any better 😊', 'now i see this on 43 inch i see he is the same man', 'oh my goodness... these are not tears, they are memories. what a life he&#39;s lived! what a work of art this is! soon to be 70 and this is a sweet reminder of mr. van dyke and others we&#39;ve loved over the years. many gone now, and some of the best still with us.    ...chris martin&#39;s talent is magical! 🧡💛', 'coldplay this is hot !❤', 'two legends in a video.<br>❤️', 'all wonderful 🌈✨', 'amazing to see a great old actor recognised in a modern twist....top marks chris and the boys..keep it up', 'magnificent.  love is our only goal in our life, please never forget it. thank coldplay for reminding us ❤', 'i am gandhi...the world is my. family ..we must spread love....to be a part of family  because our life is too short to argue thankyou team of cold play<br>to create oness in this world', 'honestly, i think coldplay still has the perfect formula to make their music a hit.', 'this is poetic! 🤩', 'sweet song with the sweetest of characters. ❤', '❤ my heart is so 💓']
+    ['chris martin has such a gorgeous bountiful voice! wow 😊❤', 'you have all my love babe.💕💋❤️m❤️', 'happy 99th birthday mr. van dyke', 'when an artist strikes  🎉', 'i can&#39;t listen to this without crying , so i&#39;m crying a lot. few songs are this  powerful i love it']
     
 
-
-```python
-
-```
-
-#### Storing comments in a file for further access
+### Storing comments in a file for further access
 
 
 ```python
@@ -301,10 +251,7 @@ f.close()
 print("Comments Stored Successfully !")
 ```
 
-    Comments Stored Successfully !
-    
-
-#### Analyzing Comments 
+### Analyzing Comments 
 
 
 ```python
@@ -317,8 +264,6 @@ def sentiment_scores(comment, polarity):
     polarity.append(sentiment_dict['compound'])
 
     return polarity
-
-
 polarity = []
 positive_comments = []
 negative_comments = []
@@ -352,7 +297,7 @@ polarity[:5]
 
 
 
-#### Overall Polarity
+### Overall Polarity
 
 
 ```python
@@ -379,9 +324,9 @@ print("The comment with most negative sentiment:", comments[polarity.index(min(
      with score -0.9607 and length 115
     
 
-#### Visualizing Comments 
+### Visualizing Comments 
 
-### Bar Chart
+#### Bar Chart
 
 
 ```python
@@ -393,26 +338,6 @@ neutral_count = len(neutral_comments)
 labels = ['Positive', 'Negative', 'Neutral']
 comment_counts = [positive_count, negative_count, neutral_count]
 
-# Creating bar chart
-plt.bar(labels, comment_counts, color=['green', 'red', 'grey'])
-
-# Adding labels and title to the plot
-plt.xlabel('Sentiment')
-plt.ylabel('Comment Count')
-plt.title('Sentiment Analysis of Comments')
-
-# Displaying the chart
-plt.show()
-```
-
-
-    
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_24_0.png)
-    
-
-
-
-```python
 plt.figure(figsize=(10, 6))
 colors = ['#76c7c0', '#f76c6c', '#ffcc5c']  # Custom colors
 plt.bar(labels, comment_counts, color=colors, edgecolor='black', linewidth=1.2)
@@ -431,7 +356,7 @@ plt.show()
 
 
     
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_25_0.png)
+![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_22_0.png)
     
 
 
@@ -442,24 +367,6 @@ plt.show()
 # labels and data for Bar chart
 labels = ['Positive', 'Negative', 'Neutral']
 comment_counts = [positive_count, negative_count, neutral_count]
-
-plt.figure(figsize=(10, 6)) # setting size
-
-# plotting pie chart
-plt.pie(comment_counts, labels=labels,shadow=True,radius=.90)
-
-# Displaying Pie Chart
-plt.show()
-```
-
-
-    
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_27_0.png)
-    
-
-
-
-```python
 colors = ['#8fd175', '#f76c6c', '#ffd700']  # Custom colors
 explode = (0.1, 0, 0)  # Highlight the Positive slice
 plt.figure(figsize=(6, 6))
@@ -472,11 +379,26 @@ plt.show()
 
 
     
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_28_0.png)
+![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_24_0.png)
     
 
 
-### 
+### Donut Chart 
+
+
+```python
+plt.figure(figsize=(7, 7))
+plt.pie(comment_counts, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors,
+        wedgeprops={'edgecolor': 'black', 'width': 0.4})
+plt.title('Sentiment Distribution (Donut Chart)', fontsize=16, fontweight='bold')
+plt.show()
+```
+
+
+    
+![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_26_0.png)
+    
+
 
 ### Word Cloud 
 
@@ -497,25 +419,7 @@ plt.show()
 
 
     
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_31_0.png)
-    
-
-
-### Donut Chart 
-
-
-```python
-plt.figure(figsize=(8, 8))
-plt.pie(comment_counts, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors,
-        wedgeprops={'edgecolor': 'black', 'width': 0.4})
-plt.title('Sentiment Distribution (Donut Chart)', fontsize=16, fontweight='bold')
-plt.show()
-
-```
-
-
-    
-![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_33_0.png)
+![png](Youtube%20Comment%20Sentiment%20Analysis_files/Youtube%20Comment%20Sentiment%20Analysis_28_0.png)
     
 
 
@@ -550,18 +454,3 @@ This project demonstrates the use of data science techniques to extract valuable
 - VADER Sentiment Analysis
 
 - LangDetect Documentation
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
